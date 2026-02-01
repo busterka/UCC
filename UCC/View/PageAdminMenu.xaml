@@ -1,0 +1,46 @@
+﻿<Page x:Class="UCC.View.PageAdminMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UCC.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+     Title="Панель администратора">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Border Background="#2C5282" Padding="20">
+            <TextBlock Text="Единая Цифровая Картотека (ЕЦК)"
+                       Foreground="White" FontSize="20" FontWeight="Bold"/>
+        </Border>
+
+        <!-- Основное содержимое -->
+        <ScrollViewer Grid.Row="1" Margin="20">
+            <StackPanel>
+                <TextBlock Text="Панель администратора"
+                           FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Управление справочниками"
+                           FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                <Button Content="Болезни" Height="40" Margin="0,0,0,10" Click="BtnDiagnoses_Click"/>
+                <Button Content="Лекарства" Height="40" Margin="0,0,0,10" Click="BtnMedications_Click"/>
+                <Button Content="Отделения" Height="40" Margin="0,0,0,10" Click="BtnDepartments_Click"/>
+                <Button Content="Роли сотрудников" Height="40" Margin="0,0,0,10" Click="BtnRoles_Click"/>
+
+                <TextBlock Text="Управление пользователями"
+                           FontSize="16" FontWeight="Bold" Margin="0,20,0,10"/>
+                <Button Content="Пациенты" Height="40" Margin="0,0,0,10" Click="BtnPatients_Click"/>
+                <Button Content="Сотрудники (Врачи/Админы)" Height="40" Margin="0,0,0,10" Name="BtnStaff" Click="BtnStaff_Click" />
+
+                <Button Content="Выход" Height="40" Margin="0,30,0,0" 
+                        Background="#E53E3E" Foreground="White" Name="BTNlogout" Click="BTNlogout_Click"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

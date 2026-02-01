@@ -1,0 +1,817 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ECCModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CardDiagnoses">
+          <Key>
+            <PropertyRef Name="DiagnosisRecordId" />
+          </Key>
+          <Property Name="DiagnosisRecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CardId" Type="int" Nullable="false" />
+          <Property Name="StaffId" Type="int" Nullable="false" />
+          <Property Name="DiagnosisId" Type="int" Nullable="false" />
+          <Property Name="OpenedAt" Type="datetime2" Precision="7" />
+          <Property Name="ClosedAt" Type="datetime2" Precision="7" />
+          <Property Name="IsClosed" Type="int" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="DoctorNote" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Cabinet" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Diagnoses">
+          <Key>
+            <PropertyRef Name="DiagnosisId" />
+          </Key>
+          <Property Name="DiagnosisId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DiseaseName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MedicationId" Type="int" />
+        </EntityType>
+        <EntityType Name="LabTests">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Name="TestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CardId" Type="int" Nullable="false" />
+          <Property Name="StaffId" Type="int" Nullable="false" />
+          <Property Name="TestName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Result" Type="nvarchar" MaxLength="500" />
+          <Property Name="TestDate" Type="date" />
+          <Property Name="RecordedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="MedicalCards">
+          <Key>
+            <PropertyRef Name="CardId" />
+          </Key>
+          <Property Name="CardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="OpenedAt" Type="datetime2" Precision="7" />
+          <Property Name="ClosedAt" Type="datetime2" Precision="7" />
+          <Property Name="IsClosed" Type="int" StoreGeneratedPattern="Computed" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MedicalRoles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Medications">
+          <Key>
+            <PropertyRef Name="MedicationId" />
+          </Key>
+          <Property Name="MedicationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedicationName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="StandardDosage" Type="nvarchar" MaxLength="100" />
+          <Property Name="GeneralInstructions" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="PatientId" />
+          </Key>
+          <Property Name="PatientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="Referrals">
+          <Key>
+            <PropertyRef Name="ReferralId" />
+          </Key>
+          <Property Name="ReferralId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CardId" Type="int" Nullable="false" />
+          <Property Name="StaffId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="Purpose" Type="nvarchar" MaxLength="500" />
+          <Property Name="IssuedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="StaffId" />
+          </Key>
+          <Property Name="StaffId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="Cabinet" Type="nvarchar" MaxLength="20" />
+          <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__CardDiagn__CardI__5441852A">
+          <End Role="MedicalCards" Type="Self.MedicalCards" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CardDiagnoses" Type="Self.CardDiagnoses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCards">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="CardDiagnoses">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CardDiagn__Diagn__5629CD9C">
+          <End Role="Diagnoses" Type="Self.Diagnoses" Multiplicity="1" />
+          <End Role="CardDiagnoses" Type="Self.CardDiagnoses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnoses">
+              <PropertyRef Name="DiagnosisId" />
+            </Principal>
+            <Dependent Role="CardDiagnoses">
+              <PropertyRef Name="DiagnosisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CardDiagn__Staff__5535A963">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="CardDiagnoses" Type="Self.CardDiagnoses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="CardDiagnoses">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Diagnoses__Medic__5070F446">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Diagnoses" Type="Self.Diagnoses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationId" />
+            </Principal>
+            <Dependent Role="Diagnoses">
+              <PropertyRef Name="MedicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabTests__CardId__5FB337D6">
+          <End Role="MedicalCards" Type="Self.MedicalCards" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LabTests" Type="Self.LabTests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCards">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="LabTests">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabTests__StaffI__60A75C0F">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="LabTests" Type="Self.LabTests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="LabTests">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MedicalCa__Patie__4CA06362">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicalCards" Type="Self.MedicalCards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="MedicalCards">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Referrals__CardI__59FA5E80">
+          <End Role="MedicalCards" Type="Self.MedicalCards" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Referrals" Type="Self.Referrals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCards">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="Referrals">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Referrals__Depar__5BE2A6F2">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="Referrals" Type="Self.Referrals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Referrals">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Referrals__Staff__5AEE82B9">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Referrals" Type="Self.Referrals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="Referrals">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Staff__RoleId__47DBAE45">
+          <End Role="MedicalRoles" Type="Self.MedicalRoles" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalRoles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ECCModelContainer">
+          <EntitySet Name="CardDiagnoses" EntityType="Self.CardDiagnoses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Diagnoses" EntityType="Self.Diagnoses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LabTests" EntityType="Self.LabTests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicalCards" EntityType="Self.MedicalCards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicalRoles" EntityType="Self.MedicalRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medications" EntityType="Self.Medications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Referrals" EntityType="Self.Referrals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CardDiagn__CardI__5441852A" Association="Self.FK__CardDiagn__CardI__5441852A">
+            <End Role="MedicalCards" EntitySet="MedicalCards" />
+            <End Role="CardDiagnoses" EntitySet="CardDiagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CardDiagn__Diagn__5629CD9C" Association="Self.FK__CardDiagn__Diagn__5629CD9C">
+            <End Role="Diagnoses" EntitySet="Diagnoses" />
+            <End Role="CardDiagnoses" EntitySet="CardDiagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CardDiagn__Staff__5535A963" Association="Self.FK__CardDiagn__Staff__5535A963">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="CardDiagnoses" EntitySet="CardDiagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Diagnoses__Medic__5070F446" Association="Self.FK__Diagnoses__Medic__5070F446">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Diagnoses" EntitySet="Diagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabTests__CardId__5FB337D6" Association="Self.FK__LabTests__CardId__5FB337D6">
+            <End Role="MedicalCards" EntitySet="MedicalCards" />
+            <End Role="LabTests" EntitySet="LabTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabTests__StaffI__60A75C0F" Association="Self.FK__LabTests__StaffI__60A75C0F">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="LabTests" EntitySet="LabTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MedicalCa__Patie__4CA06362" Association="Self.FK__MedicalCa__Patie__4CA06362">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="MedicalCards" EntitySet="MedicalCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Referrals__CardI__59FA5E80" Association="Self.FK__Referrals__CardI__59FA5E80">
+            <End Role="MedicalCards" EntitySet="MedicalCards" />
+            <End Role="Referrals" EntitySet="Referrals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Referrals__Depar__5BE2A6F2" Association="Self.FK__Referrals__Depar__5BE2A6F2">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Referrals" EntitySet="Referrals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Referrals__Staff__5AEE82B9" Association="Self.FK__Referrals__Staff__5AEE82B9">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Referrals" EntitySet="Referrals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Staff__RoleId__47DBAE45" Association="Self.FK__Staff__RoleId__47DBAE45">
+            <End Role="MedicalRoles" EntitySet="MedicalRoles" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ECCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CardDiagnoses">
+          <Key>
+            <PropertyRef Name="DiagnosisRecordId" />
+          </Key>
+          <Property Name="DiagnosisRecordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardId" Type="Int32" Nullable="false" />
+          <Property Name="StaffId" Type="Int32" Nullable="false" />
+          <Property Name="DiagnosisId" Type="Int32" Nullable="false" />
+          <Property Name="OpenedAt" Type="DateTime" Precision="7" />
+          <Property Name="ClosedAt" Type="DateTime" Precision="7" />
+          <Property Name="IsClosed" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="DoctorNote" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MedicalCards" Relationship="Self.FK__CardDiagn__CardI__5441852A" FromRole="CardDiagnoses" ToRole="MedicalCards" />
+          <NavigationProperty Name="Diagnoses" Relationship="Self.FK__CardDiagn__Diagn__5629CD9C" FromRole="CardDiagnoses" ToRole="Diagnoses" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK__CardDiagn__Staff__5535A963" FromRole="CardDiagnoses" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cabinet" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Referrals" Relationship="Self.FK__Referrals__Depar__5BE2A6F2" FromRole="Departments" ToRole="Referrals" />
+        </EntityType>
+        <EntityType Name="Diagnoses">
+          <Key>
+            <PropertyRef Name="DiagnosisId" />
+          </Key>
+          <Property Name="DiagnosisId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DiseaseName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MedicationId" Type="Int32" />
+          <NavigationProperty Name="CardDiagnoses" Relationship="Self.FK__CardDiagn__Diagn__5629CD9C" FromRole="Diagnoses" ToRole="CardDiagnoses" />
+          <NavigationProperty Name="Medications" Relationship="Self.FK__Diagnoses__Medic__5070F446" FromRole="Diagnoses" ToRole="Medications" />
+        </EntityType>
+        <EntityType Name="LabTests">
+          <Key>
+            <PropertyRef Name="TestId" />
+          </Key>
+          <Property Name="TestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardId" Type="Int32" Nullable="false" />
+          <Property Name="StaffId" Type="Int32" Nullable="false" />
+          <Property Name="TestName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Result" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TestDate" Type="DateTime" Precision="0" />
+          <Property Name="RecordedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="MedicalCards" Relationship="Self.FK__LabTests__CardId__5FB337D6" FromRole="LabTests" ToRole="MedicalCards" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK__LabTests__StaffI__60A75C0F" FromRole="LabTests" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="MedicalCards">
+          <Key>
+            <PropertyRef Name="CardId" />
+          </Key>
+          <Property Name="CardId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="OpenedAt" Type="DateTime" Precision="7" />
+          <Property Name="ClosedAt" Type="DateTime" Precision="7" />
+          <Property Name="IsClosed" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="CardDiagnoses" Relationship="Self.FK__CardDiagn__CardI__5441852A" FromRole="MedicalCards" ToRole="CardDiagnoses" />
+          <NavigationProperty Name="LabTests" Relationship="Self.FK__LabTests__CardId__5FB337D6" FromRole="MedicalCards" ToRole="LabTests" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK__MedicalCa__Patie__4CA06362" FromRole="MedicalCards" ToRole="Patients" />
+          <NavigationProperty Name="Referrals" Relationship="Self.FK__Referrals__CardI__59FA5E80" FromRole="MedicalCards" ToRole="Referrals" />
+        </EntityType>
+        <EntityType Name="MedicalRoles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK__Staff__RoleId__47DBAE45" FromRole="MedicalRoles" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="Medications">
+          <Key>
+            <PropertyRef Name="MedicationId" />
+          </Key>
+          <Property Name="MedicationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicationName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StandardDosage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GeneralInstructions" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Diagnoses" Relationship="Self.FK__Diagnoses__Medic__5070F446" FromRole="Medications" ToRole="Diagnoses" />
+        </EntityType>
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="PatientId" />
+          </Key>
+          <Property Name="PatientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="MedicalCards" Relationship="Self.FK__MedicalCa__Patie__4CA06362" FromRole="Patients" ToRole="MedicalCards" />
+        </EntityType>
+        <EntityType Name="Referrals">
+          <Key>
+            <PropertyRef Name="ReferralId" />
+          </Key>
+          <Property Name="ReferralId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardId" Type="Int32" Nullable="false" />
+          <Property Name="StaffId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="Purpose" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IssuedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Departments" Relationship="Self.FK__Referrals__Depar__5BE2A6F2" FromRole="Referrals" ToRole="Departments" />
+          <NavigationProperty Name="MedicalCards" Relationship="Self.FK__Referrals__CardI__59FA5E80" FromRole="Referrals" ToRole="MedicalCards" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK__Referrals__Staff__5AEE82B9" FromRole="Referrals" ToRole="Staff" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="StaffId" />
+          </Key>
+          <Property Name="StaffId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="Cabinet" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="CardDiagnoses" Relationship="Self.FK__CardDiagn__Staff__5535A963" FromRole="Staff" ToRole="CardDiagnoses" />
+          <NavigationProperty Name="LabTests" Relationship="Self.FK__LabTests__StaffI__60A75C0F" FromRole="Staff" ToRole="LabTests" />
+          <NavigationProperty Name="MedicalRoles" Relationship="Self.FK__Staff__RoleId__47DBAE45" FromRole="Staff" ToRole="MedicalRoles" />
+          <NavigationProperty Name="Referrals" Relationship="Self.FK__Referrals__Staff__5AEE82B9" FromRole="Staff" ToRole="Referrals" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__CardDiagn__CardI__5441852A">
+          <End Role="MedicalCards" Type="Self.MedicalCards" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CardDiagnoses" Type="Self.CardDiagnoses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCards">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="CardDiagnoses">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CardDiagn__Diagn__5629CD9C">
+          <End Role="Diagnoses" Type="Self.Diagnoses" Multiplicity="1" />
+          <End Role="CardDiagnoses" Type="Self.CardDiagnoses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnoses">
+              <PropertyRef Name="DiagnosisId" />
+            </Principal>
+            <Dependent Role="CardDiagnoses">
+              <PropertyRef Name="DiagnosisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CardDiagn__Staff__5535A963">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="CardDiagnoses" Type="Self.CardDiagnoses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="CardDiagnoses">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Referrals__Depar__5BE2A6F2">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="Referrals" Type="Self.Referrals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Referrals">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Diagnoses__Medic__5070F446">
+          <End Role="Medications" Type="Self.Medications" Multiplicity="0..1" />
+          <End Role="Diagnoses" Type="Self.Diagnoses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medications">
+              <PropertyRef Name="MedicationId" />
+            </Principal>
+            <Dependent Role="Diagnoses">
+              <PropertyRef Name="MedicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabTests__CardId__5FB337D6">
+          <End Role="MedicalCards" Type="Self.MedicalCards" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LabTests" Type="Self.LabTests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCards">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="LabTests">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LabTests__StaffI__60A75C0F">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="LabTests" Type="Self.LabTests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="LabTests">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MedicalCa__Patie__4CA06362">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicalCards" Type="Self.MedicalCards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="MedicalCards">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Referrals__CardI__59FA5E80">
+          <End Role="MedicalCards" Type="Self.MedicalCards" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Referrals" Type="Self.Referrals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCards">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="Referrals">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Staff__RoleId__47DBAE45">
+          <End Role="MedicalRoles" Type="Self.MedicalRoles" Multiplicity="1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalRoles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Referrals__Staff__5AEE82B9">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="1" />
+          <End Role="Referrals" Type="Self.Referrals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="Referrals">
+              <PropertyRef Name="StaffId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ECCEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CardDiagnoses" EntityType="Self.CardDiagnoses" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" />
+          <EntitySet Name="Diagnoses" EntityType="Self.Diagnoses" />
+          <EntitySet Name="LabTests" EntityType="Self.LabTests" />
+          <EntitySet Name="MedicalCards" EntityType="Self.MedicalCards" />
+          <EntitySet Name="MedicalRoles" EntityType="Self.MedicalRoles" />
+          <EntitySet Name="Medications" EntityType="Self.Medications" />
+          <EntitySet Name="Patients" EntityType="Self.Patients" />
+          <EntitySet Name="Referrals" EntityType="Self.Referrals" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK__CardDiagn__CardI__5441852A" Association="Self.FK__CardDiagn__CardI__5441852A">
+            <End Role="MedicalCards" EntitySet="MedicalCards" />
+            <End Role="CardDiagnoses" EntitySet="CardDiagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CardDiagn__Diagn__5629CD9C" Association="Self.FK__CardDiagn__Diagn__5629CD9C">
+            <End Role="Diagnoses" EntitySet="Diagnoses" />
+            <End Role="CardDiagnoses" EntitySet="CardDiagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CardDiagn__Staff__5535A963" Association="Self.FK__CardDiagn__Staff__5535A963">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="CardDiagnoses" EntitySet="CardDiagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Referrals__Depar__5BE2A6F2" Association="Self.FK__Referrals__Depar__5BE2A6F2">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Referrals" EntitySet="Referrals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Diagnoses__Medic__5070F446" Association="Self.FK__Diagnoses__Medic__5070F446">
+            <End Role="Medications" EntitySet="Medications" />
+            <End Role="Diagnoses" EntitySet="Diagnoses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabTests__CardId__5FB337D6" Association="Self.FK__LabTests__CardId__5FB337D6">
+            <End Role="MedicalCards" EntitySet="MedicalCards" />
+            <End Role="LabTests" EntitySet="LabTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LabTests__StaffI__60A75C0F" Association="Self.FK__LabTests__StaffI__60A75C0F">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="LabTests" EntitySet="LabTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MedicalCa__Patie__4CA06362" Association="Self.FK__MedicalCa__Patie__4CA06362">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="MedicalCards" EntitySet="MedicalCards" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Referrals__CardI__59FA5E80" Association="Self.FK__Referrals__CardI__59FA5E80">
+            <End Role="MedicalCards" EntitySet="MedicalCards" />
+            <End Role="Referrals" EntitySet="Referrals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Staff__RoleId__47DBAE45" Association="Self.FK__Staff__RoleId__47DBAE45">
+            <End Role="MedicalRoles" EntitySet="MedicalRoles" />
+            <End Role="Staff" EntitySet="Staff" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Referrals__Staff__5AEE82B9" Association="Self.FK__Referrals__Staff__5AEE82B9">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Referrals" EntitySet="Referrals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ECCModelContainer" CdmEntityContainer="ECCEntities1">
+          <EntitySetMapping Name="CardDiagnoses">
+            <EntityTypeMapping TypeName="ECCModel.CardDiagnoses">
+              <MappingFragment StoreEntitySet="CardDiagnoses">
+                <ScalarProperty Name="DiagnosisRecordId" ColumnName="DiagnosisRecordId" />
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="DiagnosisId" ColumnName="DiagnosisId" />
+                <ScalarProperty Name="OpenedAt" ColumnName="OpenedAt" />
+                <ScalarProperty Name="ClosedAt" ColumnName="ClosedAt" />
+                <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
+                <ScalarProperty Name="DoctorNote" ColumnName="DoctorNote" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="ECCModel.Departments">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="Cabinet" ColumnName="Cabinet" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diagnoses">
+            <EntityTypeMapping TypeName="ECCModel.Diagnoses">
+              <MappingFragment StoreEntitySet="Diagnoses">
+                <ScalarProperty Name="DiagnosisId" ColumnName="DiagnosisId" />
+                <ScalarProperty Name="DiseaseName" ColumnName="DiseaseName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MedicationId" ColumnName="MedicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LabTests">
+            <EntityTypeMapping TypeName="ECCModel.LabTests">
+              <MappingFragment StoreEntitySet="LabTests">
+                <ScalarProperty Name="TestId" ColumnName="TestId" />
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="TestDate" ColumnName="TestDate" />
+                <ScalarProperty Name="RecordedAt" ColumnName="RecordedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicalCards">
+            <EntityTypeMapping TypeName="ECCModel.MedicalCards">
+              <MappingFragment StoreEntitySet="MedicalCards">
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="OpenedAt" ColumnName="OpenedAt" />
+                <ScalarProperty Name="ClosedAt" ColumnName="ClosedAt" />
+                <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicalRoles">
+            <EntityTypeMapping TypeName="ECCModel.MedicalRoles">
+              <MappingFragment StoreEntitySet="MedicalRoles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medications">
+            <EntityTypeMapping TypeName="ECCModel.Medications">
+              <MappingFragment StoreEntitySet="Medications">
+                <ScalarProperty Name="MedicationId" ColumnName="MedicationId" />
+                <ScalarProperty Name="MedicationName" ColumnName="MedicationName" />
+                <ScalarProperty Name="StandardDosage" ColumnName="StandardDosage" />
+                <ScalarProperty Name="GeneralInstructions" ColumnName="GeneralInstructions" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="ECCModel.Patients">
+              <MappingFragment StoreEntitySet="Patients">
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Referrals">
+            <EntityTypeMapping TypeName="ECCModel.Referrals">
+              <MappingFragment StoreEntitySet="Referrals">
+                <ScalarProperty Name="ReferralId" ColumnName="ReferralId" />
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+                <ScalarProperty Name="IssuedAt" ColumnName="IssuedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staff">
+            <EntityTypeMapping TypeName="ECCModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Cabinet" ColumnName="Cabinet" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ECCModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
