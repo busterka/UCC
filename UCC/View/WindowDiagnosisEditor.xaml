@@ -1,0 +1,36 @@
+﻿<Window x:Class="UCC.View.WindowDiagnosisEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование диагноза" Height="250" Width="500"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Код МКБ-10 -->
+        <TextBox x:Name="TxtCode" Grid.Row="0" Height="28" Margin="0,0,0,10"
+                 Text="" 
+                 Tag="Код МКБ-10 (например, I10)"/>
+
+        <!-- Название -->
+        <TextBox x:Name="TxtName" Grid.Row="1" Height="28" Margin="0,0,0,10"
+                 Text=""
+                 Tag="Название заболевания"/>
+
+        <!-- Описание -->
+        <TextBox x:Name="TxtDescription" Grid.Row="2" Height="60"
+                 AcceptsReturn="True" TextWrapping="Wrap"
+                 Text=""
+                 Tag="Описание (необязательно)"/>
+
+        <!-- Кнопки -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3" Margin="0,15,0,0">
+            <Button Content="Отмена" Width="80" IsCancel="True" Margin="0,0,10,0"/>
+            <Button Content="Сохранить" Width="90" IsDefault="True" Click="BtnSave_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

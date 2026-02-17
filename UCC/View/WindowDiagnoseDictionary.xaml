@@ -3,10 +3,64 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:UCC.View"
         mc:Ignorable="d"
-        Title="WindowDiagnoseDictionary" Height="450" Width="800">
-    <Grid>
-        
+        Title="Справочник диагнозов (МКБ-10)" Height="600" Width="900"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Text="Справочник диагнозов по МКБ-10" 
+                   FontSize="18" FontWeight="Bold" 
+                   Grid.Row="0" Margin="0,0,0,10"/>
+
+        <!-- Поиск -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,10">
+            <TextBox x:Name="TxtSearch" Width="300" Height="28" 
+                     TextChanged="TxtSearch_TextChanged"
+                     Text=""/>
+            <Button Content="Очистить" Margin="10,0,0,0" Click="BtnClearSearch_Click"/>
+        </StackPanel>
+
+        <!-- Список диагнозов -->
+        <DataGrid x:Name="DgDiagnoses" 
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  CanUserAddRows="False"
+                  Margin="0,0,0,10">
+            <DataGrid.Columns>
+                <!-- ID диагноза -->
+                <DataGridTextColumn Header="ID" 
+                        Binding="{Binding DiagnosisId}" 
+                        Width="60"/>
+
+                <!-- Название заболевания -->
+                <DataGridTextColumn Header="Название заболевания" 
+                        Binding="{Binding DiseaseName}" 
+                        Width="*"/>
+
+                <!-- Описание -->
+                <DataGridTextColumn Header="Описание" 
+                        Binding="{Binding Description}" 
+                        Width="2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки управления -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3">
+            <Button x:Name="BtnAdd" Content="Добавить" Width="90" Margin="0,0,10,0" Click="BtnAdd_Click"/>
+            <Button x:Name="BtnEdit" Content="Редактировать" Width="100" Margin="0,0,10,0" Click="BtnEdit_Click" IsEnabled="False"/>
+            <Button x:Name="BtnDelete" Content="Удалить" Width="90" Click="BtnDelete_Click" IsEnabled="False"/>
+            <Button Content="Закрыть" Width="80" IsCancel="True"/>
+        </StackPanel>
+
     </Grid>
 </Window>

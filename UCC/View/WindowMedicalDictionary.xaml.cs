@@ -1,27 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using UCC.Model; // ← обратите внимание: Model, а не Models!
 
 namespace UCC.View
 {
-    /// <summary>
-    /// Логика взаимодействия для WindowMedicalDictionary.xaml
-    /// </summary>
     public partial class WindowMedicalDictionary : Window
     {
         public WindowMedicalDictionary()
         {
             InitializeComponent();
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            using (var db = new ECCEntities1())
+            {
+                // Диагнозы
+                DgDiagnoses.ItemsSource = db.Diagnoses.ToList();
+
+                // Лекарства
+                DgMedications.ItemsSource = db.Medications.ToList();
+
+                // Участки
+                DgDepartments.ItemsSource = db.Departments.ToList();
+            }
+        }
+
+        private void BtnAddDiagnosis_Click(object sender, RoutedEventArgs e)
+        {
+            // Пока заглушка
+            MessageBox.Show("Добавление диагноза — в разработке.");
+        }
+
+        private void TxtSearchDiagnosis_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            // Можно реализовать фильтрацию позже
         }
     }
 }
