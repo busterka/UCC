@@ -4,29 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="896e739a8ecc4f499012e076f18ccd7b" Name="Diagram1">
-        <EntityTypeShape EntityType="ECCModel.CardDiagnoses" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.Departments" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.Diagnoses" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.LabTests" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.MedicalCards" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.MedicalRoles" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.Medications" Width="1.5" PointX="0.75" PointY="13.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.Patients" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.Referrals" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.Staff" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ECCModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="ECCModel.FK__CardDiagn__CardI__5441852A" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__CardDiagn__Diagn__5629CD9C" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__CardDiagn__Staff__5535A963" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__Referrals__Depar__5BE2A6F2" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__Diagnoses__Medic__5070F446" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__LabTests__CardId__5FB337D6" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__LabTests__StaffI__60A75C0F" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__MedicalCa__Patie__4CA06362" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__Referrals__CardI__59FA5E80" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__Staff__RoleId__47DBAE45" ManuallyRouted="false" />
-        <AssociationConnector Association="ECCModel.FK__Referrals__Staff__5AEE82B9" ManuallyRouted="false" />
+      <Diagram DiagramId="896e739a8ecc4f499012e076f18ccd7b" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="ECCModel.CardDiagnoses" Width="1.5" PointX="5.25" PointY="0.875" />
+        <EntityTypeShape EntityType="ECCModel.Departments" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="ECCModel.Diagnoses" Width="1.5" PointX="3" PointY="12.625" />
+        <EntityTypeShape EntityType="ECCModel.LabTests" Width="1.5" PointX="8.25" PointY="5" />
+        <EntityTypeShape EntityType="ECCModel.MedicalCards" Width="1.5" PointX="3" PointY="9" />
+        <EntityTypeShape EntityType="ECCModel.MedicalRoles" Width="1.5" PointX="0.75" PointY="5.625" />
+        <EntityTypeShape EntityType="ECCModel.Medications" Width="1.5" PointX="0.75" PointY="12.625" />
+        <EntityTypeShape EntityType="ECCModel.Patients" Width="1.5" PointX="0.75" PointY="8.875" />
+        <EntityTypeShape EntityType="ECCModel.Referrals" Width="1.5" PointX="5.25" PointY="5" />
+        <EntityTypeShape EntityType="ECCModel.Staff" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="ECCModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <AssociationConnector Association="ECCModel.FK__CardDiagn__CardI__5441852A" />
+        <AssociationConnector Association="ECCModel.FK__CardDiagn__Diagn__5629CD9C" />
+        <AssociationConnector Association="ECCModel.FK__CardDiagn__Staff__5535A963" />
+        <AssociationConnector Association="ECCModel.FK__Referrals__Depar__5BE2A6F2" />
+        <AssociationConnector Association="ECCModel.FK__Diagnoses__Medic__5070F446" />
+        <AssociationConnector Association="ECCModel.FK__LabTests__CardId__5FB337D6" />
+        <AssociationConnector Association="ECCModel.FK__LabTests__StaffI__60A75C0F" />
+        <AssociationConnector Association="ECCModel.FK__MedicalCa__Patie__4CA06362" />
+        <AssociationConnector Association="ECCModel.FK__Referrals__CardI__59FA5E80" />
+        <AssociationConnector Association="ECCModel.FK__Staff__RoleId__47DBAE45" />
+        <AssociationConnector Association="ECCModel.FK__Referrals__Staff__5AEE82B9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using UCC.Model;
+using System.Data.Entity; // Для Include()
 
 namespace UCC.View
 {
     public partial class PageProfileDoctor : Page
     {
-        private Guid _doctorId;
-        private bool _isEditMode = false;
+        private int _staffId;
 
-        // Конструктор с передачей ID врача (для админа или просмотра)
-        public PageProfileDoctor(Guid doctorId)
+        public PageProfileDoctor(int staffId)
         {
             InitializeComponent();
-            _doctorId = doctorId;
-            LoadDoctorData();
+            _staffId = staffId;
+            LoadStaffData();
         }
 
-        // Конструктор по умолчанию — только для дизайнера
         public PageProfileDoctor()
         {
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
@@ -25,62 +25,46 @@ namespace UCC.View
                 InitializeComponent();
                 return;
             }
-            throw new InvalidOperationException("Используйте конструктор с Guid doctorId.");
+            throw new InvalidOperationException("Используйте конструктор с int staffId.");
         }
 
-        private void LoadDoctorData()
+        private void LoadStaffData()
         {
-            // 🔜 Здесь будет вызов: DoctorService.GetById(_doctorId)
-            // Сейчас — заглушка
-            TxtFullName.Text = "Петров Алексей Сергеевич";
-            TxtSpecialty.Text = "Терапевт";
-            TxtDistrict.Text = "Участок №1 – г. Город";
-            TxtCabinet.Text = "205";
-            TxtEmail.Text = "petrov.as@clinic.local";
-        }
-
-        private void BtnEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_isEditMode)
+            try
             {
-                // Включить редактирование
-                SetEditMode(true);
-                BtnEdit.Content = "Сохранить"; // ✅ Теперь правильно!
-                _isEditMode = true;
+                using (var db = new ECCEntities1())
+                {
+                    var staff = db.Staff
+                        .Include(s => s.MedicalRoles)
+                        .FirstOrDefault(s => s.StaffId == _staffId);
+
+                    if (staff == null)
+                    {
+                        MessageBox.Show("Сотрудник не найден.", "Ошибка",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    TxtFullName.Text = staff.FullName ?? "—";
+                    TxtEmail.Text = staff.Email ?? "—";
+                    TxtRole.Text = staff.MedicalRoles?.RoleName ?? "—";
+                    TxtCabinet.Text = staff.Cabinet ?? "—";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // Сохранить изменения
-                try
-                {
-                    // 🔜 Здесь: DoctorService.Update(...)
-                    MessageBox.Show("Данные успешно сохранены.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-                    SetEditMode(false);
-                    BtnEdit.Content = "Редактировать"; // ✅
-                    _isEditMode = false;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка сохранения: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                MessageBox.Show($"Ошибка загрузки: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void SetEditMode(bool enable)
-        {
-            TxtFullName.IsReadOnly = !enable;
-            TxtSpecialty.IsReadOnly = !enable;
-            TxtDistrict.IsReadOnly = !enable;
-            TxtCabinet.IsReadOnly = !enable;
-            TxtEmail.IsReadOnly = !enable;
-        }
-
+        // 🔹 ДОБАВЛЕН МЕТОД ДЛЯ КНОПКИ "НАЗАД"
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             if (NavigationService?.CanGoBack == true)
                 NavigationService.GoBack();
             else
-                NavigationService?.Navigate(new Uri("View/PageDoctorMenu.xaml", UriKind.Relative));
+                NavigationService?.Navigate(new Uri("View/PageAdminMenu.xaml", UriKind.Relative));
         }
     }
 }

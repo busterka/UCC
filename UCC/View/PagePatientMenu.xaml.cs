@@ -1,4 +1,5 @@
-﻿using PdfSharp.Drawing;
+﻿// Только официальный PdfSharp для .NET Framework
+using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
@@ -8,34 +9,40 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using UCC.Model; // ваша EF-модель
-
+using UCC.Model;
 
 namespace UCC.View
 {
     /// <summary>
     /// Логика взаимодействия для PagePatientMenu.xaml
     /// </summary>
-    
     public partial class PagePatientMenu : Page
     {
-        // Используем int, как в БД
-        private int _currentPatientId = 1; // ← временная заглушка (замените на реальный ID)
+        private int _currentPatientId;
 
+        // Конструктор для дизайнера
         public PagePatientMenu()
         {
-            var font = new XFont("Microsoft Sans Serif", 10);
-            var boldFont = new XFont("Microsoft Sans Serif", 10, XFontStyle.Bold);
-            InitializeComponent();
-           
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                InitializeComponent();
+                return;
+            }
+            throw new InvalidOperationException("Используйте конструктор с параметром int patientId.");
         }
 
-        // Конструктор с передачей ID пациента
+        // Основной конструктор
         public PagePatientMenu(int patientId)
         {
             InitializeComponent();
             _currentPatientId = patientId;
-            
+
+            // Проверка валидности ID
+            if (_currentPatientId <= 0)
+            {
+                MessageBox.Show("Неверный ID пациента!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                NavigationService?.Navigate(new Uri("View/PageRegAuthoMenu.xaml", UriKind.Relative));
+            }
         }
 
         private void BtnMyCard_Click(object sender, RoutedEventArgs e)
@@ -65,17 +72,6 @@ namespace UCC.View
         {
             MessageBox.Show("Результаты лабораторных анализов будут доступны здесь.",
                 "Анализы", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void BtnAppointment_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService?.Navigate(new PagePatientCard(_currentPatientId));
-        }
-
-        private void BtnProfile_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Редактирование профиля (ФИО, телефон, email) будет реализовано позже.",
-                "Профиль", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
@@ -113,11 +109,13 @@ namespace UCC.View
                     var card = db.MedicalCards.FirstOrDefault(mc => mc.PatientId == _currentPatientId);
                     if (card != null)
                     {
-                        var diagnoses = db.CardDiagnoses.Where(cd => cd.CardId == card.CardId).ToList();
+                        var diagnoses = db.CardDiagnoses
+                            .Where(cd => cd.CardId == card.CardId)
+                            .ToList();
+
                         foreach (var d in diagnoses)
                         {
                             string diagnosisName = "Без диагноза";
-                            // Проверяем, не является ли ID "заглушкой" (например, 0)
                             if (d.DiagnosisId > 0)
                             {
                                 var diag = db.Diagnoses.Find(d.DiagnosisId);
@@ -202,7 +200,8 @@ namespace UCC.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка:\n{ex.Message}", "Ошибка PDF", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка создания PDF:\n{ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
+using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using UCC.Model;
+
+// Установите пакет: Install-Package BCrypt.Net-Next
+using BC = BCrypt.Net.BCrypt;
 
 namespace UCC.Class
 {
@@ -14,43 +14,59 @@ namespace UCC.Class
         /// <summary>
         /// Выполняет авторизацию пользователя по email и паролю
         /// </summary>
-        /// <returns>
-        /// "Patient" — пациент,
-        /// "Doctor" — врач (не админ),
-        /// "Admin" — администратор,
-        /// null — ошибка авторизации
-        /// </returns>
         public async Task<string> LoginAsync(string email, string password)
         {
             return await Task.Run(() =>
             {
-                using (var db = new ECCEntities1()) // ← ЗАМЕНИТЕ НА ВАШЕ ИМЯ DbContext
+                using (var db = new ECCEntities1())
                 {
-                    // ПОИСК В ПАЦИЕНТАХ
-                    var patient = db.Patients.FirstOrDefault(p =>
-                        p.Email == email &&
-                        p.PasswordHash == password); // ← сравниваем напрямую
-
-                    if (patient != null)
+                    // ПОИСК В ПАЦИЕНТАХ (только BCrypt)
+                    var patient = db.Patients.FirstOrDefault(p => p.Email == email);
+                    if (patient != null && BC.Verify(password, patient.PasswordHash))
                     {
                         return "Patient";
                     }
 
-                    // ПОИСК В СОТРУДНИКАХ
-                    var staff = db.Staff.FirstOrDefault(s =>
-                        s.Email == email &&
-                        s.PasswordHash == password); // ← сравниваем напрямую
-
+                    // ПОИСК В СОТРУДНИКАХ (поддержка открытого текста + миграция на BCrypt)
+                    var staff = db.Staff.FirstOrDefault(s => s.Email == email);
                     if (staff != null)
                     {
-                        // ОПРЕДЕЛЕНИЕ РОЛИ СОТРУДНИКА
-                        var medicalRole = db.MedicalRoles.FirstOrDefault(r => r.RoleId == staff.RoleId);
-                        if (medicalRole != null)
+                        bool isValid = false;
+
+                        // Попытка 1: BCrypt (новые пароли)
+                        try
                         {
-                            if (medicalRole.RoleName == "Администратор")
+                            if (BC.Verify(password, staff.PasswordHash))
+                            {
+                                isValid = true;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // Игнорируем ошибки BCrypt (например, "Invalid salt version")
+                        }
+
+                        // Попытка 2: Открытый текст (старые пароли)
+                        if (!isValid && staff.PasswordHash == password)
+                        {
+                            isValid = true;
+                            // Мигрируем на BCrypt
+                            staff.PasswordHash = BC.HashPassword(password);
+                            db.SaveChanges();
+                        }
+
+                        if (isValid)
+                        {
+                            // ОПРЕДЕЛЕНИЕ РОЛИ
+                            var role = db.MedicalRoles.FirstOrDefault(r => r.RoleId == staff.RoleId);
+                            if (role != null && role.RoleName == "Администратор")
+                            {
                                 return "Admin";
+                            }
                             else
+                            {
                                 return "Doctor";
+                            }
                         }
                     }
 
@@ -68,17 +84,16 @@ namespace UCC.Class
             string phone,
             string address,
             string email,
-            string password)
+            string password,
+            byte[] photo = null)
         {
             return await Task.Run(() =>
             {
                 using (var db = new ECCEntities1())
                 {
-                    // Проверка уникальности email
                     if (db.Patients.Any(p => p.Email == email))
                         return false;
 
-                    // Создаём запись в Patients (пароль в открытом виде)
                     var patient = new Patients
                     {
                         FullName = fullName,
@@ -86,21 +101,21 @@ namespace UCC.Class
                         Phone = phone,
                         Address = address,
                         Email = email,
-                        PasswordHash = password, // ← пароль в открытом виде
-                        CreatedAt = DateTime.Now
+                        PasswordHash = BC.HashPassword(password), // BCrypt
+                        CreatedAt = DateTime.Now,
+                        Image = photo
                     };
                     db.Patients.Add(patient);
                     db.SaveChanges();
 
-                    // Создаём амбулаторную карту
                     var medicalCard = new MedicalCards
                     {
                         PatientId = patient.PatientId,
                         OpenedAt = DateTime.Now
                     };
                     db.MedicalCards.Add(medicalCard);
-
                     db.SaveChanges();
+
                     return true;
                 }
             });

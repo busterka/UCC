@@ -16,31 +16,15 @@ namespace UCC.View
 
         private void BtnNewDiagnosis_Click(object sender, RoutedEventArgs e)
         {
-            // Врач должен выбрать пациента перед началом приёма.
-            // Для упрощения — открываем страницу выбора пациента.
-            // Если у вас нет отдельной страницы — можно временно использовать PagePatientCard.
-            NavigationService?.Navigate(new PagePatientCard(1));
+            NavigationService?.Navigate(new PageSelectPatient());
         }
 
         private void BtnSearchPatient_Click(object sender, RoutedEventArgs e)
         {
             // Поиск пациента — открываем карточку с возможностью поиска
-            NavigationService?.Navigate(new PagePatientCard(1));
+            NavigationService?.Navigate(new PagePatientList());
         }
 
-        private void BtnReferral_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Направления выдаются в процессе приёма пациента.\n" +
-                            "Используйте функцию «Новый приём / Диагноз».",
-                "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void BtnLabTest_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Анализы назначаются в процессе приёма пациента.\n" +
-                            "Используйте функцию «Новый приём / Диагноз».",
-                "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
 
         private void BtnDiagnoses_Click(object sender, RoutedEventArgs e)
         {

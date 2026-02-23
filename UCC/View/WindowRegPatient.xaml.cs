@@ -1,30 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Microsoft.Win32;
 using UCC.Class;
 
 namespace UCC.View
 {
-    /// <summary>
-    /// Логика взаимодействия для WindowRegPatient.xaml
-    /// </summary>
     public partial class WindowRegPatient : Window
     {
         private readonly AuthService _authService = new AuthService();
+        private byte[] _selectedPhotoBytes; // ← храним выбранное фото
 
         public WindowRegPatient()
         {
             InitializeComponent();
+        }
+
+        private void BtnSelectPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpeg;*.jpg;*.bmp)|*.png;*.jpeg;*.jpg;*.bmp|All files (*.*)|*.*",
+                Title = "Выберите фото"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    // Загружаем превью
+                    var bitmap = new BitmapImage(new Uri(openFileDialog.FileName));
+                    ImgPreview.Source = bitmap;
+
+                    // Сохраняем байты для регистрации
+                    _selectedPhotoBytes = File.ReadAllBytes(openFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка загрузки фото:\n{ex.Message}",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _selectedPhotoBytes = null;
+                    ImgPreview.Source = new BitmapImage(new Uri("pack://application:,,,/Images/default-avatar.png"));
+                }
+            }
         }
 
         private async void BtnRegister_Click(object sender, RoutedEventArgs e)
@@ -34,7 +53,8 @@ namespace UCC.View
                 string.IsNullOrEmpty(txtEmail.Text) ||
                 string.IsNullOrEmpty(txtPassword.Password))
             {
-                MessageBox.Show("Заполните все обязательные поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Заполните все обязательные поля!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -44,9 +64,10 @@ namespace UCC.View
                     txtFullName.Text,
                     dpBirthDate.SelectedDate.Value,
                     txtPhone.Text,
-                    "", // адрес можно добавить позже
+                    "", // адрес
                     txtEmail.Text,
-                    txtPassword.Password
+                    txtPassword.Password,
+                    _selectedPhotoBytes // ← передаём фото (может быть null)
                 );
 
                 if (success)
@@ -64,7 +85,8 @@ namespace UCC.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка регистрации: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка регистрации: {ex.Message}", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

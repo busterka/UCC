@@ -17,8 +17,8 @@ namespace UCC.View
         {
             using (var db = new ECCEntities1())
             {
-                // Диагнозы
-                DgDiagnoses.ItemsSource = db.Diagnoses.ToList();
+                
+       
 
                 // Лекарства
                 DgMedications.ItemsSource = db.Medications.ToList();

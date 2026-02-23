@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       mc:Ignorable="d" 
       d:DesignHeight="700" d:DesignWidth="900"
-      Title="Добавление данных в карту">
+      Title="Добавление данных в карту"
+      Background="{StaticResource BackgroundBrush}">
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -22,50 +23,144 @@
 
         <!-- Заголовок -->
         <TextBlock Text="Новый приём пациента" 
-                   FontSize="20" FontWeight="Bold" 
-                   Grid.Row="0" Margin="0,0,0,15"/>
+                   Style="{StaticResource HeaderStyle}"
+                   FontSize="24" 
+                   Grid.Row="0" Margin="0,0,0,20"/>
 
         <!-- Пациент -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,15">
-            <TextBlock Text="Пациент:" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <TextBlock x:Name="TxtPatientName" Text="— не выбран —" FontSize="14"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,20">
+            <TextBlock Text="Пациент:" 
+                       Style="{StaticResource TextStyle}" 
+                       FontWeight="Bold" 
+                       VerticalAlignment="Center" 
+                       Margin="0,0,15,0"
+                       FontSize="16"/>
+            <TextBlock x:Name="TxtPatientName" 
+                       Style="{StaticResource TextStyle}"
+                       FontSize="16"
+                       Text="— не выбран —"/>
         </StackPanel>
 
         <!-- Диагноз -->
-        <StackPanel Grid.Row="2" Margin="0,0,0,15">
-            <TextBlock Text="Диагноз (МКБ-10):" FontWeight="Bold" Margin="0,0,0,5"/>
-            <TextBox x:Name="TxtDiagnosis" Text="Например: I10 – Гипертония" Height="30" Width="400"/>
-        </StackPanel>
+        <Border Grid.Row="2" 
+                Background="White" 
+                BorderBrush="{StaticResource PrimaryBrush}" 
+                BorderThickness="1" 
+                CornerRadius="8" 
+                Padding="15" 
+                Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Диагноз (МКБ-10):" 
+                           Style="{StaticResource TextStyle}" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,10"
+                           FontSize="16"/>
+                <TextBox x:Name="TxtDiagnosis" 
+                         Style="{StaticResource CustomTextBox}"
+                         Text="Например: I10 – Гипертония" 
+                         Height="40" 
+                         FontSize="14"/>
+            </StackPanel>
+        </Border>
 
         <!-- Жалобы -->
-        <StackPanel Grid.Row="3" Margin="0,0,0,15">
-            <TextBlock Text="Жалобы пациента:" FontWeight="Bold" Margin="0,0,0,5"/>
-            <TextBox x:Name="TxtComplaints" AcceptsReturn="True" Height="80" TextWrapping="Wrap"/>
-        </StackPanel>
+        <Border Grid.Row="3" 
+                Background="White" 
+                BorderBrush="{StaticResource PrimaryBrush}" 
+                BorderThickness="1" 
+                CornerRadius="8" 
+                Padding="15" 
+                Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Жалобы пациента:" 
+                           Style="{StaticResource TextStyle}" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,10"
+                           FontSize="16"/>
+                <TextBox x:Name="TxtComplaints" 
+                         Style="{StaticResource CustomTextBox}"
+                         AcceptsReturn="True" 
+                         Height="100" 
+                         TextWrapping="Wrap"
+                         FontSize="14"/>
+            </StackPanel>
+        </Border>
 
         <!-- Осмотр -->
-        <StackPanel Grid.Row="4" Margin="0,0,0,15">
-            <TextBlock Text="Осмотр / Симптомы:" FontWeight="Bold" Margin="0,0,0,5"/>
-            <TextBox x:Name="TxtExamination" AcceptsReturn="True" Height="80" TextWrapping="Wrap"/>
-        </StackPanel>
+        <Border Grid.Row="4" 
+                Background="White" 
+                BorderBrush="{StaticResource PrimaryBrush}" 
+                BorderThickness="1" 
+                CornerRadius="8" 
+                Padding="15" 
+                Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Осмотр / Симптомы:" 
+                           Style="{StaticResource TextStyle}" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,10"
+                           FontSize="16"/>
+                <TextBox x:Name="TxtExamination" 
+                         Style="{StaticResource CustomTextBox}"
+                         AcceptsReturn="True" 
+                         Height="100" 
+                         TextWrapping="Wrap"
+                         FontSize="14"/>
+            </StackPanel>
+        </Border>
 
         <!-- Назначения -->
-        <StackPanel Grid.Row="5" Margin="0,0,0,15">
-            <TextBlock Text="Назначения и рекомендации:" FontWeight="Bold" Margin="0,0,0,5"/>
-            <TextBox x:Name="TxtPrescriptions" AcceptsReturn="True" Height="80" TextWrapping="Wrap"/>
-        </StackPanel>
+        <Border Grid.Row="5" 
+                Background="White" 
+                BorderBrush="{StaticResource PrimaryBrush}" 
+                BorderThickness="1" 
+                CornerRadius="8" 
+                Padding="15" 
+                Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="Назначения и рекомендации:" 
+                           Style="{StaticResource TextStyle}" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,10"
+                           FontSize="16"/>
+                <TextBox x:Name="TxtPrescriptions" 
+                         Style="{StaticResource CustomTextBox}"
+                         AcceptsReturn="True" 
+                         Height="100" 
+                         TextWrapping="Wrap"
+                         FontSize="14"/>
+            </StackPanel>
+        </Border>
 
         <!-- Доп. действия -->
-        <StackPanel Orientation="Horizontal" Grid.Row="6" Margin="0,0,0,20">
-            <Button Content="Выдать рецепт" Width="120" Margin="0,0,10,0" Click="BtnAddPrescription_Click"/>
-            <Button Content="Выдать направление" Width="140" Click="BtnAddReferral_Click"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Margin="0,0,0,25">
+            <Button Content="Выдать рецепт" 
+                    Style="{StaticResource RoundedButton}"
+                    Width="140" 
+                    Height="45"
+                    FontSize="14"
+                    Click="BtnAddPrescription_Click"/>
+            <Button Content="Выдать направление" 
+                    Style="{StaticResource RoundedButton}"
+                    Width="160" 
+                    Height="45"
+                    FontSize="14"
+                    Click="BtnAddReferral_Click"/>
         </StackPanel>
 
         <!-- Кнопки -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="8">
-            <Button Content="Отмена" Width="100" Margin="0,0,10,0" Click="BtnCancel_Click"/>
-            <Button Content="Сохранить и завершить" Width="160" 
-                    Background="#2B6CB0" Foreground="White" 
+            <Button Content="Отмена" 
+                    Style="{StaticResource RoundedButton}"
+                    Width="120" 
+                    Height="45"
+                    FontSize="14"
+                    Click="BtnCancel_Click"/>
+            <Button Content="Сохранить и завершить" 
+                    Style="{StaticResource RoundedButton}"
+                    Width="200" 
+                    Height="45"
+                    FontSize="14"
                     Click="BtnSaveAndFinish_Click"/>
         </StackPanel>
 

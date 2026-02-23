@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UCC.Class;
+using UCC.Model;
 
 namespace UCC.View
 {
@@ -26,6 +27,14 @@ namespace UCC.View
         public PageRegAuthoMenu()
         {
             InitializeComponent();
+        }
+        private int GetPatientIdByEmail(string email)
+        {
+            using (var db = new ECCEntities1())
+            {
+                var patient = db.Patients.FirstOrDefault(p => p.Email == email);
+                return patient?.PatientId ?? -1;
+            }
         }
 
         private async void BtnLogin_Click(object sender, RoutedEventArgs e)
@@ -45,7 +54,9 @@ namespace UCC.View
 
                 if (role == "Patient")
                 {
-                    NavigateToPatientMenu();
+                    // Получаем ID пациента
+                    int patientId = GetPatientIdByEmail(email);
+                    NavigateToPatientMenu(patientId);
                 }
                 else if (role == "Doctor")
                 {
@@ -80,10 +91,10 @@ namespace UCC.View
             regWindow.ShowDialog();
         }
 
-        private void NavigateToPatientMenu()
+        private void NavigateToPatientMenu(int patientId)
         {
             var mainWindow = Window.GetWindow(this) as MainWindow;
-            mainWindow?.MainFrame.Navigate(new PagePatientMenu());
+            mainWindow?.MainFrame.Navigate(new PagePatientMenu(patientId));
         }
 
         private void NavigateToDoctorMenu()
