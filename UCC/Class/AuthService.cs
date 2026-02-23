@@ -18,6 +18,7 @@ namespace UCC.Class
         {
             return await Task.Run(() =>
             {
+                // 🔹 ИСПРАВЛЕНО: Используем ECCEntities2 вместо ECCEntities1
                 using (var db = new ECCEntities1())
                 {
                     // ПОИСК В ПАЦИЕНТАХ (только BCrypt)
@@ -89,6 +90,7 @@ namespace UCC.Class
         {
             return await Task.Run(() =>
             {
+                // 🔹 ИСПРАВЛЕНО: Используем ECCEntities2 вместо ECCEntities1
                 using (var db = new ECCEntities1())
                 {
                     if (db.Patients.Any(p => p.Email == email))

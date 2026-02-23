@@ -152,6 +152,9 @@
     </ApplicationDefinition>
     <Compile Include="Class\AuthService.cs" />
     <Compile Include="Class\CurrentUser.cs" />
+    <Compile Include="Model\Prescriptions.cs">
+      <DependentUpon>ModelECK.tt</DependentUpon>
+    </Compile>
     <Compile Include="View\PageAddCardDiagnose.xaml.cs">
       <DependentUpon>PageAddCardDiagnose.xaml</DependentUpon>
     </Compile>
@@ -173,6 +176,12 @@
     <Compile Include="View\PagePatientMenu.xaml.cs">
       <DependentUpon>PagePatientMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\PagePatientPrescriptions.xaml.cs">
+      <DependentUpon>PagePatientPrescriptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PagePatientReferrals.xaml.cs">
+      <DependentUpon>PagePatientReferrals.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PageProfileDoctor.xaml.cs">
       <DependentUpon>PageProfileDoctor.xaml</DependentUpon>
     </Compile>
@@ -193,6 +202,9 @@
     </Compile>
     <Compile Include="View\WindowMedicalDictionary.xaml.cs">
       <DependentUpon>WindowMedicalDictionary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WindowPrescriptionAdd.xaml.cs">
+      <DependentUpon>WindowPrescriptionAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WindowRefferalAdd.xaml.cs">
       <DependentUpon>WindowRefferalAdd.xaml</DependentUpon>
@@ -243,6 +255,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\PagePatientPrescriptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PagePatientReferrals.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\PageProfileDoctor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -268,6 +288,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\WindowMedicalDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WindowPrescriptionAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

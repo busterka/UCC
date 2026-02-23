@@ -13,9 +13,10 @@
         <EntityTypeShape EntityType="ECCModel.MedicalRoles" Width="1.5" PointX="0.75" PointY="5.625" />
         <EntityTypeShape EntityType="ECCModel.Medications" Width="1.5" PointX="0.75" PointY="12.625" />
         <EntityTypeShape EntityType="ECCModel.Patients" Width="1.5" PointX="0.75" PointY="8.875" />
+        <EntityTypeShape EntityType="ECCModel.Prescriptions" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="ECCModel.Referrals" Width="1.5" PointX="5.25" PointY="5" />
-        <EntityTypeShape EntityType="ECCModel.Staff" Width="1.5" PointX="3" PointY="4.875" />
-        <EntityTypeShape EntityType="ECCModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ECCModel.Staff" Width="1.5" PointX="3" PointY="4.75" />
+        <EntityTypeShape EntityType="ECCModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="8.75" />
         <AssociationConnector Association="ECCModel.FK__CardDiagn__CardI__5441852A" />
         <AssociationConnector Association="ECCModel.FK__CardDiagn__Diagn__5629CD9C" />
         <AssociationConnector Association="ECCModel.FK__CardDiagn__Staff__5535A963" />

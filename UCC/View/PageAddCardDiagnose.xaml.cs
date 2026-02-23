@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using UCC.Model;
 
 namespace UCC.View
 {
@@ -8,7 +10,7 @@ namespace UCC.View
     {
         private int _patientId;
         private string _patientFullName;
-
+        private int _currentStaffId;
         public PageAddCardDiagnose(int patientId, string patientFullName)
         {
             InitializeComponent();
@@ -29,17 +31,31 @@ namespace UCC.View
             throw new InvalidOperationException("Используйте конструктор с параметрами.");
         }
 
-        // 🔹 Добавлены недостающие обработчики
+        // 🔹 РЕАЛИЗОВАНО: Выдача рецепта
         private void BtnAddPrescription_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Форма выписки рецепта будет реализована позже.",
-                "Рецепт", MessageBoxButton.OK, MessageBoxImage.Information);
+            var prescriptionWindow = new WindowPrescriptionAdd();
+            prescriptionWindow.SetPatient(_patientId, _patientFullName);
+
+            if (prescriptionWindow.ShowDialog() == true)
+            {
+                MessageBox.Show("Рецепт успешно создан!", "Успех",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
+        // 🔹 РЕАЛИЗОВАНО: Выдача направления
         private void BtnAddReferral_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Форма выдачи направления будет реализована позже.",
-                "Направление", MessageBoxButton.OK, MessageBoxImage.Information);
+            // 🔹 ПЕРЕДАЁМ ID ВРАЧА
+            var referralWindow = new WindowRefferalAdd(_currentStaffId);
+            referralWindow.SetPatient(_patientId, _patientFullName);
+
+            if (referralWindow.ShowDialog() == true)
+            {
+                MessageBox.Show("Направление успешно создано!", "Успех",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
@@ -50,7 +66,6 @@ namespace UCC.View
                 NavigationService?.Navigate(new Uri("View/PageDoctorMenu.xaml", UriKind.Relative));
         }
 
-        // Сохранение данных
         private void BtnSaveAndFinish_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TxtDiagnosis.Text))

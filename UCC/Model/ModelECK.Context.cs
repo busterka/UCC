@@ -33,6 +33,7 @@ namespace UCC.Model
         public virtual DbSet<MedicalRoles> MedicalRoles { get; set; }
         public virtual DbSet<Medications> Medications { get; set; }
         public virtual DbSet<Patients> Patients { get; set; }
+        public virtual DbSet<Prescriptions> Prescriptions { get; set; }
         public virtual DbSet<Referrals> Referrals { get; set; }
         public virtual DbSet<Staff> Staff { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }

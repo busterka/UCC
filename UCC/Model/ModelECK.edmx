@@ -87,7 +87,19 @@
           <Property Name="Email" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" />
-          <Property Name="Image" Type="image" />
+          <Property Name="Image" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Prescriptions">
+          <Key>
+            <PropertyRef Name="PrescriptionId" />
+          </Key>
+          <Property Name="PrescriptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="MedicationId" Type="int" Nullable="false" />
+          <Property Name="StaffId" Type="int" Nullable="false" />
+          <Property Name="Instructions" Type="nvarchar(max)" />
+          <Property Name="IssuedAt" Type="datetime2" Precision="7" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Referrals">
           <Key>
@@ -111,6 +123,7 @@
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="Cabinet" Type="nvarchar" MaxLength="20" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" />
+          <Property Name="Image" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -271,6 +284,7 @@
           <EntitySet Name="MedicalRoles" EntityType="Self.MedicalRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Medications" EntityType="Self.Medications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prescriptions" EntityType="Self.Prescriptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Referrals" EntityType="Self.Referrals" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -332,6 +346,7 @@
           <EntitySet Name="MedicalRoles" EntityType="ECCModel.MedicalRoles" />
           <EntitySet Name="Medications" EntityType="ECCModel.Medications" />
           <EntitySet Name="Patients" EntityType="ECCModel.Patients" />
+          <EntitySet Name="Prescriptions" EntityType="ECCModel.Prescriptions" />
           <EntitySet Name="Referrals" EntityType="ECCModel.Referrals" />
           <EntitySet Name="Staff" EntityType="ECCModel.Staff" />
           <EntitySet Name="sysdiagrams" EntityType="ECCModel.sysdiagrams" />
@@ -479,6 +494,18 @@
           <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="MedicalCards" Relationship="ECCModel.FK__MedicalCa__Patie__4CA06362" FromRole="Patients" ToRole="MedicalCards" />
         </EntityType>
+        <EntityType Name="Prescriptions">
+          <Key>
+            <PropertyRef Name="PrescriptionId" />
+          </Key>
+          <Property Name="PrescriptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="MedicationId" Type="Int32" Nullable="false" />
+          <Property Name="StaffId" Type="Int32" Nullable="false" />
+          <Property Name="Instructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IssuedAt" Type="DateTime" Precision="7" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Referrals">
           <Key>
             <PropertyRef Name="ReferralId" />
@@ -504,6 +531,7 @@
           <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="Cabinet" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="CreatedAt" Type="DateTime" Precision="7" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="CardDiagnoses" Relationship="ECCModel.FK__CardDiagn__Staff__5535A963" FromRole="Staff" ToRole="CardDiagnoses" />
           <NavigationProperty Name="LabTests" Relationship="ECCModel.FK__LabTests__StaffI__60A75C0F" FromRole="Staff" ToRole="LabTests" />
           <NavigationProperty Name="MedicalRoles" Relationship="ECCModel.FK__Staff__RoleId__47DBAE45" FromRole="Staff" ToRole="MedicalRoles" />
@@ -659,7 +687,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -757,6 +785,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Prescriptions">
+            <EntityTypeMapping TypeName="ECCModel.Prescriptions">
+              <MappingFragment StoreEntitySet="Prescriptions">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IssuedAt" ColumnName="IssuedAt" />
+                <ScalarProperty Name="Instructions" ColumnName="Instructions" />
+                <ScalarProperty Name="StaffId" ColumnName="StaffId" />
+                <ScalarProperty Name="MedicationId" ColumnName="MedicationId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="PrescriptionId" ColumnName="PrescriptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Referrals">
             <EntityTypeMapping TypeName="ECCModel.Referrals">
               <MappingFragment StoreEntitySet="Referrals">
@@ -772,6 +813,7 @@
           <EntitySetMapping Name="Staff">
             <EntityTypeMapping TypeName="ECCModel.Staff">
               <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="Cabinet" ColumnName="Cabinet" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />

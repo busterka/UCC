@@ -8,9 +8,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -20,16 +17,30 @@
                    FontSize="24" 
                    Grid.Row="0" Margin="0,0,0,25"/>
 
-        <!-- Карточка профиля -->
+        <!-- Основные данные сотрудника -->
         <Border Grid.Row="1" 
-                Grid.RowSpan="4"
                 Background="White" 
                 BorderBrush="{StaticResource PrimaryBrush}" 
                 BorderThickness="1" 
                 CornerRadius="10" 
                 Padding="25">
             <StackPanel>
-                <StackPanel Margin="0,0,0,20">
+                <!-- Фото сотрудника с кнопкой -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                    <Image x:Name="ImgProfile" 
+                           Width="100" Height="100" 
+                           Stretch="UniformToFill"
+                           Source="/Images/default-avatar.png"/>
+                    <Button Content="Изменить фото" 
+                            Style="{StaticResource RoundedButton}"
+                            Width="120" 
+                            Height="35"
+                            FontSize="13"
+                            Margin="15,0,0,0"
+                            Click="BtnChangePhoto_Click"/>
+                </StackPanel>
+
+                <StackPanel Margin="0,0,0,15">
                     <TextBlock Text="ФИО:" 
                                Style="{StaticResource TextStyle}" 
                                FontWeight="Bold" 
@@ -40,7 +51,7 @@
                                FontSize="16"/>
                 </StackPanel>
 
-                <StackPanel Margin="0,0,0,20">
+                <StackPanel Margin="0,0,0,15">
                     <TextBlock Text="Email:" 
                                Style="{StaticResource TextStyle}" 
                                FontWeight="Bold" 
@@ -51,7 +62,7 @@
                                FontSize="16"/>
                 </StackPanel>
 
-                <StackPanel Margin="0,0,0,20">
+                <StackPanel Margin="0,0,0,15">
                     <TextBlock Text="Роль:" 
                                Style="{StaticResource TextStyle}" 
                                FontWeight="Bold" 
@@ -78,7 +89,7 @@
         <!-- Кнопка назад -->
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right" 
-                    Grid.Row="5" 
+                    Grid.Row="2" 
                     Margin="0,30,0,0">
             <Button Content="Назад" 
                     Style="{StaticResource RoundedButton}"

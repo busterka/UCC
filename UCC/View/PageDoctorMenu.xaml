@@ -62,6 +62,14 @@
                         FontSize="16"
                         Click="BtnMedications_Click"/>
 
+                <!-- 🔹 НОВАЯ КНОПКА: Профиль врача -->
+                <Button Content="Мой профиль" 
+                        Style="{StaticResource RoundedButton}"
+                        Height="50" 
+                        FontSize="16"
+                        Click="BtnProfile_Click"
+                        Margin="0,25,0,0"/>
+
                 <Button Content="Выход" 
                         Style="{StaticResource RoundedButton}"
                         Height="50" 

@@ -79,6 +79,24 @@ namespace UCC.View
             {
                 MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+        }
+        public void SetPatient(int patientId, string patientName)
+        {
+            // Загружаем всех пациентов
+            using (var db = new ECCEntities1())
+            {
+                var patients = db.Patients.ToList();
+                CmbPatients.ItemsSource = patients;
+
+                // Выбираем текущего пациента
+                var currentPatient = patients.FirstOrDefault(p => p.PatientId == patientId);
+                if (currentPatient != null)
+                {
+                    CmbPatients.SelectedItem = currentPatient;
+                    CmbPatients.IsEnabled = false; // Фиксируем выбор
+                }
+            }
         }
     }
 }

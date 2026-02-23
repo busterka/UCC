@@ -57,15 +57,12 @@ namespace UCC.View
 
         private void BtnPrescriptions_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Список ваших рецептов будет отображён здесь.\n" +
-                            "Функция в разработке.",
-                "Рецепты", MessageBoxButton.OK, MessageBoxImage.Information);
+            NavigationService?.Navigate(new PagePatientPrescriptions(_currentPatientId));
         }
 
         private void BtnReferrals_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Ваши направления к врачам и на исследования.",
-                "Направления", MessageBoxButton.OK, MessageBoxImage.Information);
+            NavigationService?.Navigate(new PagePatientReferrals(_currentPatientId));
         }
 
         private void BtnLabTests_Click(object sender, RoutedEventArgs e)

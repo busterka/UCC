@@ -1,0 +1,88 @@
+﻿<Page x:Class="UCC.View.PagePatientReferrals"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Мои направления"
+      Background="{StaticResource BackgroundBrush}">
+
+    <Grid Margin="30,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <TextBlock Text="Мои направления" 
+                   Style="{StaticResource HeaderStyle}"
+                   FontSize="24" 
+                   Grid.Row="0" Margin="0,0,0,20"/>
+
+        <!-- Список направлений -->
+        <Border Grid.Row="1" 
+                Background="White" 
+                BorderBrush="{StaticResource PrimaryBrush}" 
+                BorderThickness="1" 
+                CornerRadius="8" 
+                Padding="5">
+            <DataGrid x:Name="DgReferrals" 
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      SelectionMode="Single"
+                      CanUserAddRows="False"
+                      FontFamily="{StaticResource ComfortaaFont}"
+                      FontSize="14"
+                      RowHeight="35">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Дата создания" 
+                                        Binding="{Binding CreatedAt, StringFormat=d}" 
+                                        Width="100"/>
+                    <DataGridTextColumn Header="Тип направления" 
+                                        Binding="{Binding ReferralType}" 
+                                        Width="150"/>
+                    <DataGridTextColumn Header="Цель / Комментарий" 
+                                        Binding="{Binding Purpose}" 
+                                        Width="2*"/>
+                    <DataGridTextColumn Header="Врач" 
+                                        Binding="{Binding DoctorName}" 
+                                        Width="150"/>
+                    <DataGridTextColumn Header="Статус" 
+                                        Binding="{Binding Status}" 
+                                        Width="80"/>
+                </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="8,6"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+            </DataGrid>
+        </Border>
+
+        <!-- Кнопка назад -->
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    Grid.Row="2" 
+                    Margin="0,20,0,0">
+            <Button Content="Назад" 
+                    Style="{StaticResource RoundedButton}"
+                    Width="100" 
+                    Height="45"
+                    FontSize="15"
+                    Click="BtnBack_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

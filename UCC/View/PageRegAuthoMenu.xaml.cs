@@ -28,12 +28,24 @@ namespace UCC.View
         {
             InitializeComponent();
         }
+
+        // 🔹 ИСПРАВЛЕНО: Используем ECCEntities2
         private int GetPatientIdByEmail(string email)
         {
             using (var db = new ECCEntities1())
             {
                 var patient = db.Patients.FirstOrDefault(p => p.Email == email);
                 return patient?.PatientId ?? -1;
+            }
+        }
+
+        // 🔹 ДОБАВЛЕНО: Получение ID сотрудника
+        private int GetStaffIdByEmail(string email)
+        {
+            using (var db = new ECCEntities1())
+            {
+                var staff = db.Staff.FirstOrDefault(s => s.Email == email);
+                return staff?.StaffId ?? -1;
             }
         }
 
@@ -54,17 +66,33 @@ namespace UCC.View
 
                 if (role == "Patient")
                 {
-                    // Получаем ID пациента
                     int patientId = GetPatientIdByEmail(email);
+                    if (patientId <= 0)
+                    {
+                        MessageBox.Show("Не удалось найти пациента.", "Ошибка");
+                        return;
+                    }
                     NavigateToPatientMenu(patientId);
                 }
                 else if (role == "Doctor")
                 {
-                    NavigateToDoctorMenu();
+                    int staffId = GetStaffIdByEmail(email);
+                    if (staffId <= 0)
+                    {
+                        MessageBox.Show("Не удалось найти врача.", "Ошибка");
+                        return;
+                    }
+                    NavigateToDoctorMenu(staffId); // ← Передаём ID
                 }
                 else if (role == "Admin")
                 {
-                    NavigateToAdminMenu();
+                    int staffId = GetStaffIdByEmail(email);
+                    if (staffId <= 0)
+                    {
+                        MessageBox.Show("Не удалось найти администратора.", "Ошибка");
+                        return;
+                    }
+                    NavigateToAdminMenu(staffId); // ← Передаём ID
                 }
                 else
                 {
@@ -97,16 +125,18 @@ namespace UCC.View
             mainWindow?.MainFrame.Navigate(new PagePatientMenu(patientId));
         }
 
-        private void NavigateToDoctorMenu()
+        // 🔹 ИСПРАВЛЕНО: Принимает staffId
+        private void NavigateToDoctorMenu(int staffId)
         {
             var mainWindow = Window.GetWindow(this) as MainWindow;
-            mainWindow?.MainFrame.Navigate(new PageDoctorMenu());
+            mainWindow?.MainFrame.Navigate(new PageDoctorMenu(staffId));
         }
 
-        private void NavigateToAdminMenu()
+        // 🔹 ИСПРАВЛЕНО: Принимает staffId
+        private void NavigateToAdminMenu(int staffId)
         {
             var mainWindow = Window.GetWindow(this) as MainWindow;
-            mainWindow?.MainFrame.Navigate(new PageAdminMenu());
+            mainWindow?.MainFrame.Navigate(new PageAdminMenu(staffId));
         }
     }
 }

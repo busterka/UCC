@@ -9,29 +9,50 @@ namespace UCC.View
     /// </summary>
     public partial class PageAdminMenu : Page
     {
+        private int _currentStaffId;
+
+        // Конструктор для дизайнера Visual Studio
         public PageAdminMenu()
         {
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                InitializeComponent();
+                return;
+            }
+            throw new InvalidOperationException("Используйте конструктор с параметром staffId.");
+        }
+
+        // Основной конструктор
+        public PageAdminMenu(int staffId)
+        {
             InitializeComponent();
+            _currentStaffId = staffId;
+
+            // Проверка валидности ID
+            if (_currentStaffId <= 0)
+            {
+                MessageBox.Show("Неверный ID администратора!", "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                NavigationService?.Navigate(new Uri("View/PageRegAuthoMenu.xaml", UriKind.Relative));
+            }
         }
 
         private void BtnDiagnoses_Click(object sender, RoutedEventArgs e)
         {
-            // Открываем справочник диагнозов как модальное окно
             var window = new WindowDiagnoseDictionary();
             window.Title = "Справочник диагнозов (МКБ-10)";
-            window.ShowDialog(); // Блокирующий вызов
+            window.ShowDialog();
         }
 
         private void BtnMedications_Click(object sender, RoutedEventArgs e)
         {
             var window = new WindowMedicalDictionary();
-            window.Title = "Справочник диагнозов (МКБ-10)";
-            window.ShowDialog(); // Блокирующий вызов
+            window.Title = "Справочник лекарств";
+            window.ShowDialog();
         }
 
         private void BtnDepartments_Click(object sender, RoutedEventArgs e)
         {
-            // Управление участками — предположим, это часть справочника
             var window = new WindowMedicalDictionary();
             window.Title = "Участки поликлиники";
             window.ShowDialog();
@@ -44,13 +65,11 @@ namespace UCC.View
 
         private void BtnPatients_Click(object sender, RoutedEventArgs e)
         {
-            // Переход на страницу управления пациентами
             NavigationService?.Navigate(new PagePatientList());
         }
 
         private void BtnStaff_Click(object sender, RoutedEventArgs e)
         {
-            // Переход на профиль врача (админ может редактировать всех)
             NavigationService?.Navigate(new PageStaffList());
         }
 
